@@ -1,6 +1,8 @@
-# music
+# 用户前端
 
-> A Vue.js project
+> 系统详细介绍请往后端代码查看、
+
+###### 地址：https://github.com/YaoZhejie/risingpath_zsb_backend.git
 
 ## Build Setup
 
