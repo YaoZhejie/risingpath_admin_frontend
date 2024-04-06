@@ -6,7 +6,7 @@
           <el-input v-model="title" size="mini" placeholder="筛选资料类型" class="handle-input mr10"></el-input>
           <el-button type="primary" size="mini" @click="centerDialogVisible = true">添加资料</el-button>
         </div>
-        <el-table :data="data" border size="mini" style="width: 100%" height="650px" ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table :data="data" border size="mini" style="width: 100%" height="600px" ref="multipleTable" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="40" align="center"></el-table-column>
         <el-table-column label="资料类型" prop="title" width="250" align="center"></el-table-column>
         <el-table-column label="资料描述" prop="description" width="400" align="center"></el-table-column>

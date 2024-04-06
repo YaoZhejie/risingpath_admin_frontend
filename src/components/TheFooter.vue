@@ -12,8 +12,7 @@ export default {
   data () {
     return {
       list: [
-      `浙ICP备2023018293号-1`,
-        `Designed by Yzj`
+      `©2024 Designed by yzj `
       ]
     }
   }

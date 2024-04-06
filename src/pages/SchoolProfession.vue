@@ -4,7 +4,7 @@
         <div class="handle-box">
           <el-button type="primary" size="mini" class="handle-del mr10" @click="handleForAddScore">添加专业</el-button>
         </div>
-        <el-table :data="data" border size="mini" style="width: 100%" height="650px" ref="multipleTable">
+        <el-table :data="data" border size="mini" style="width: 100%" height="600px" ref="multipleTable">
         <el-table-column label="类型" prop="type" width="80" align="center"></el-table-column>
         <el-table-column label="专业名" prop="professName" width="100" align="center"></el-table-column>
         <el-table-column label="总计划数" prop="totalPlan" width="80" align="center"></el-table-column>
@@ -117,7 +117,7 @@
         multipleSelection: [], // 记录要删除的数据
         delVisible: false, // 显示删除框
         idx: -1 ,// 记录当前要删除的数据
-        pageSize: 6, // 页数
+        pageSize: 5, // 页数
         currentPage: 1, // 当前页
       }
     },
