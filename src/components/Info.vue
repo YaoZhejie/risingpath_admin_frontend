@@ -1,7 +1,7 @@
 <template>
   <div class="info">
     <p class="title">编辑个人资料</p>
-    <hr/>
+    <hr />
     <div class="personal">
       <el-form :model="registerForm" class="demo-ruleForm" label-width="80px">
         <el-form-item prop="userName" label="姓名">
@@ -14,16 +14,16 @@
           <el-input v-model="registerForm.professInfo" placeholder="所学专业"></el-input>
         </el-form-item>
         <el-form-item prop="phone" label="手机">
-          <el-input  placeholder="手机" v-model="registerForm.phone" ></el-input>
+          <el-input placeholder="手机" v-model="registerForm.phone"></el-input>
         </el-form-item>
 
       </el-form>
-    <div class="btn">
-      <div @click="saveMsg()">保存</div>
-      <div @click="goback">取消</div>
+      <div class="btn">
+        <div @click="saveMsg()">保存</div>
+        <div @click="goback">取消</div>
+      </div>
     </div>
-    </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -48,15 +48,15 @@ export default {
       'userId'
     ])
   },
-  created () {
-    
+  created() {
+
   },
-  mounted () {
+  mounted() {
     this.getMsg(this.userId)
     console.log(this.$router) // 打印 $router 对象
   },
   methods: {
-    getMsg (id) {
+    getMsg(id) {
       getUserOfId(id)
         .then(res => {
           this.registerForm.userName = res.userName
@@ -68,21 +68,21 @@ export default {
           console.log(err)
         })
     },
-    goback () {
+    goback() {
       this.$router.go(-1)
     },
-    saveMsg () {
+    saveMsg() {
       let _this = this
       let params = {
-        userId :this.userId,
-        userName:this.registerForm.userName,
+        userId: this.userId,
+        userName: this.registerForm.userName,
         userAccount: this.registerForm.userAccount,
         professInfo: this.registerForm.professInfo,
         // password: this.registerForm.password,
-        phone:this.registerForm.phone
+        phone: this.registerForm.phone
       }
 
-      
+
       updateUserMsg(params)
         .then(res => {
           if (res.code === 1) {

@@ -6,18 +6,21 @@
           </el-tooltip>
     </div>
     <!--图标-->
-    <img :src="logo" class="header-logo">
+    <img :src="logo" class="header-logo" >
     <div class="header-logo"> 
       <span>{{Name}}</span>
     </div>
+    <ul class="navbar" ref="change">
+      <li v-if="!loginIn" :class="{active: item.name === activeName}" v-for="item in loginMsg" :key="item.type" @click="goPage(item.path, item.name)">{{item.name}}</li>
+    </ul>
 
     <!--设置-->
     <div class="header-right" v-show="loginIn">
-      <div class="textClass"  v-show="loginIn">
+      <div class="textClass">
       {{ "欢迎您："+this.username }}
-   </div>
+      </div>
       <div id="user">
-        <img :src="imageData" alt="Image" v-if="imageData">
+        <img :src="attachImageUrl(avator)" alt="头像">
       </div>
       <ul class="menu">
         <li v-for="(item, index) in menuList" :key="index" @click="goMenuList(item.path)">{{item.name}}</li>
@@ -36,7 +39,7 @@
 <script>
 import { mixin } from '../mixins'
 import { mapGetters } from 'vuex'
-import {loginMsg, menuList} from '../assets/data/header'
+import {loginMsg, menuList } from '../assets/data/header'
 import bus from '../assets/js/bus'
 import axios from 'axios'
 export default {
@@ -45,14 +48,12 @@ export default {
   data () {
     return {
       logo: require("../assets/logo.jpg"),
-      imageData: '',
-      Name: '浙江专升本信息查询系统',
-      // loginMsg: [], // 右侧导航栏
+      Name: '浙江专升本志愿辅助填报系统',
+      loginMsg: [], // 右侧导航栏
       menuList: [], // 用户下拉菜单项
       keywords: '',
       collapse:true,
       fullscreen:false,
-      // avatarUrl: '',
     }
   },
   computed: {
@@ -67,8 +68,6 @@ export default {
   created () {
     this.loginMsg = loginMsg
     this.menuList = menuList
-    this.fetchImage();
-    // this.goPage
   },
   mounted () {
     document.querySelector('#user').addEventListener('click', function (e) {
@@ -85,30 +84,6 @@ export default {
 
   },
   methods: {
-    fetchImage() {
-      // 发送请求到后端接口获取图片数据
-      // 假设后端接口返回的数据是图片文件的字节数组
-      // 可以使用axios或fetch等工具发送请求
-      const imageURL = this.avator; // 数据库中的图片地址
-
-      if (imageURL!=null) {
-        // 发送请求到后端接口获取图片数据
-        // 假设后端接口返回的数据是图片文件的字节数组
-        // 可以使用axios或fetch等工具发送请求
-       axios.get(`/avatorImages/${this.avator}`, { responseType: 'arraybuffer' })
-        .then(response => {
-          const imageBuffer = Buffer.from(response.data, 'binary');
-          const imageBase64 = 'data:image/jpeg;base64,' + imageBuffer.toString('base64');
-          this.imageData = imageBase64;
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      } else {
-        // 使用默认的头像URL
-        this.imageData = 'https://bpic.51yuansu.com/pic2/cover/00/30/60/581089402dbcb_610.jpg';
-      }
-    },
     async logout() {
       try {
         const response = await axios.post('/user/logout');
@@ -117,6 +92,8 @@ export default {
         } else {
           // 退出登录失败，弹出提示框
           this.$message.error('退出登录失败！');
+                // 退出成功后重新加载页面
+        window.location.reload();
         }
       } catch (error) {
         // API 调用错误，弹出提示框
@@ -153,7 +130,7 @@ export default {
       document.querySelector('.menu').classList.remove('show')
       if (path) {
         this.$router.push({path: path})
-      } 
+      }
     },
     collapseChange(){
       //侧边栏折叠
@@ -193,7 +170,7 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/css/the-header.scss';
 .textClass {
-  font-size: 22px;
+  font-size: 20px;
   // font-weight: bold;
   font-style: italic;
   font-family: sans-serif、serif、monospace;

@@ -44,7 +44,7 @@
     </el-row>
     <el-row :gutter="20">
     <el-col :span="12">
-      <h3 style="margin-bottom: 20px">2023公办招收人数</h3>
+      <h3 style="margin-bottom: 20px">2024公办招收人数</h3>
       <div  style="background-color: rgb(237, 243, 233)">
         <ve-pie :data="learn" :theme="options"></ve-pie>
       </div>
@@ -83,6 +83,7 @@ import { allTotalPlan,
           sumPublicProfession,
           CountOfMajorsByType} from '../api/index'
 export default {
+
 
   data () {
     return {
@@ -173,33 +174,33 @@ export default {
   methods:{
     getSchoolCount(){
       allSchoolCount().then(res =>{
-        this.schoolCount = res
+        this.schoolCount = res.data
       })
     },
     getProfessinfoCount(){
       allProfessinfoCount().then(res =>{
-        this.professinfoCount = res
+        this.professinfoCount = res.data
       })
     },
     getAllTotalPlan(){
       allTotalPlan().then(res =>{
-        this.totalPlan = res
+        this.totalPlan = res.data
       })
     },
     getSchoolTypeCount(){
       privateSchoolCount().then(res =>{
-        this.school.rows[1]['总数'] = res
+        this.school.rows[1]['总数'] = res.data
       }),
       publicSchoolCount().then(res =>{
-        this.school.rows[0]['总数'] = res
+        this.school.rows[0]['总数'] = res.data
       })
     },
     getTypeOfSum(){
       sumPrivateProfession().then(res =>{
-        this.learn.rows[1]['总数'] = res
+        this.learn.rows[1]['总数'] = res.data
       }),
       sumPublicProfession().then(res =>{
-        this.learn.rows[0]['总数'] = res
+        this.learn.rows[0]['总数'] = res.data
       })
     },
     setNumber (type, arr) {
@@ -213,14 +214,14 @@ export default {
   },
   CountOfMajorsByType(){
     CountOfMajorsByType().then(res =>{
-      this.professType.rows[0]['专业数量'] = this.setNumber('文史类',res)
-      this.professType.rows[1]['专业数量'] = this.setNumber('法学类',res)
-      this.professType.rows[2]['专业数量'] = this.setNumber('教育类',res)
-      this.professType.rows[3]['专业数量'] = this.setNumber('艺术类',res)
-      this.professType.rows[4]['专业数量'] = this.setNumber('理工类',res)
-      this.professType.rows[5]['专业数量'] = this.setNumber('经管类',res)
-      this.professType.rows[6]['专业数量'] = this.setNumber('农学类',res)
-      this.professType.rows[7]['专业数量'] = this.setNumber('医学类',res)
+      this.professType.rows[0]['专业数量'] = this.setNumber('文史类',res.data)
+      this.professType.rows[1]['专业数量'] = this.setNumber('法学类',res.data)
+      this.professType.rows[2]['专业数量'] = this.setNumber('教育类',res.data)
+      this.professType.rows[3]['专业数量'] = this.setNumber('艺术类',res.data)
+      this.professType.rows[4]['专业数量'] = this.setNumber('理工类',res.data)
+      this.professType.rows[5]['专业数量'] = this.setNumber('经管类',res.data)
+      this.professType.rows[6]['专业数量'] = this.setNumber('农学类',res.data)
+      this.professType.rows[7]['专业数量'] = this.setNumber('医学类',res.data)
     })
   }
   }

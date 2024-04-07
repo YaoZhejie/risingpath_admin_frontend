@@ -3,8 +3,9 @@
     <div class="leftCol">
       <div class="settingsMainHeader">设置</div>
       <ul class="setting-aside">
-        <li v-for="(item, index) in settingList" :key="index" :class="{activeColor: activeName === item.name}" @click="handleClick(item)">
-          {{item.name}}
+        <li v-for="(item, index) in settingList" :key="index" :class="{ activeColor: activeName === item.name }"
+          @click="handleClick(item)">
+          {{ item.name }}
         </li>
       </ul>
     </div>
@@ -26,7 +27,7 @@ export default {
     Upload,
     UpdatePassword
   },
-  data () {
+  data() {
     return {
       activeName: '个人信息',
       componentSrc: 'Info',
@@ -38,17 +39,17 @@ export default {
         icon: '',
         name: '修改头像',
         path: 'Upload'
-      },{
+      }, {
         icon: '',
         name: '修改密码',
         path: 'UpdatePassword'
       }
-    ]
+      ]
     }
   },
-  mounted () {},
+  mounted() { },
   methods: {
-    handleClick (item) {
+    handleClick(item) {
       this.activeName = item.name
       this.componentSrc = item.path
     }
