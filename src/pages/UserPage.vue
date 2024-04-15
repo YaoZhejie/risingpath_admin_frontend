@@ -350,7 +350,6 @@ export default {
     // 批量删除用户
     handleDeleteAll() {
       this.delVisibleAll = true
-      console.log(updatePicId)
     },
     delAll() {
       for (let item of this.multipleSelection) {
@@ -398,10 +397,9 @@ export default {
       form.append("id", userId);
       //更新头像
       updatePic(form).then(res => {
-        console.log(res.code)
+        this.editVisiblePic = false
         if (res.code === 1) {
           this.getData()
-          this.editVisiblePic = false
         this.$message({
           message: '修改成功',
           type: 'success'

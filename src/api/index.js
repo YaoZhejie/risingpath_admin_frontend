@@ -19,6 +19,7 @@ export const loginIn = (params) => post(`user/login`, params, { headers: { 'Cont
 export const updatePassword = (params) => post(`user/updatePassword`, params, { headers: { 'Content-Type': 'application/json' } })
 //修改头像
 export const updatePic = (params) => post(`user/updateUserPic`, params, { headers: { 'Content-Type': 'multipart/form-data' } })
+
 // =======================> 学习资料 API
 //返回所有学习资料信息
 export const getAllLeranLink = () => get('learn/allLearn')
@@ -31,28 +32,25 @@ export const insertLearn = (params) => post(`learn/insert`, params, { headers: {
 
 // =======================> 学校 API
 //返回所有学校信息
-export const getAllSchool = () => get('school/allSchool')
+export const getAllSchool = (params) => post('school/list', params, { headers: { 'Content-Type': 'application/json' } })
+//修改学校图标
+export const updateSchoolPic = (params) => post(`school/updateSchoolPic`, params, { headers: { 'Content-Type': 'multipart/form-data' } })
 //更新学校信息
-export const updateSchool = (params) => post(`school/update`, params, { headers: { 'Content-Type': 'application/json' } })
+export const addOrUpdateSchool = (params) => post(`school/addOrUpdate`, params, { headers: { 'Content-Type': 'application/json' } })
 //删除学校信息，以及所带的专业信息，分数线信息
 export const deleteSchool = (params) => post(`school/delete`, params, { headers: { 'Content-Type': 'application/json' } })
-//增加一条学习资料链接
-export const insertSchool = (params) => post(`school/insert`, params, { headers: { 'Content-Type': 'application/json' } })
-
 
 // =======================> 专业信息 API
-// 获取全部歌单
-export const getSongList = () => get('songList')
-//获取全部专业院校信息
-export const getAllProfessinfo = () => get('professinfo/allprofessinfo')
+//根据学校模糊查询分页
+export const selectByPage = (params) => post(`professinfo/selectByPage`, params, { headers: { 'Content-Type': 'application/json' } })
+//根据专业模糊查询
+export const getProfessinfoLikeName = (params) => post(`professinfo/likeProfessinfo?professName`, params, { headers: { 'Content-Type': 'application/json' } })
+//根据备注模糊查询
+export const getProfessinfoLikeRemark = (params) => post(`professinfo/likeRemarks?remarks`, params, { headers: { 'Content-Type': 'application/json' } })
 //根据学校模糊查询
 export const getProfessinfoBySchool = (keywords) => get(`professinfo/likeSchoolName?schoolName=${keywords}`)
-//根据专业模糊查询
-export const getProfessinfoLikeName = (keywords) => get(`professinfo/likeProfessinfo?professName=${keywords}`)
-//根据备注模糊查询
-export const getProfessinfoLikeRemark = (keywords) => get(`professinfo/likeRemarks?remarks=${keywords}`)
 //根据院校id查询院校的专业
-export const getProfessinfoBySchoolId = (sid) => get(`professinfo/selectProfessionBySchoolId/${sid}`)
+export const getProfessinfoBySchoolId = (params) => post(`professinfo/selectByPage`, params, { headers: { 'Content-Type': 'application/json' } })
 //删除专业以及所在的分数线
 export const deleteProfession = (proId) => post(`professinfo/delete/${proId}`)
 //添加专业信息
@@ -62,11 +60,11 @@ export const updateProfession = (params) => post(`professinfo/update`, params, {
 
 // =======================> 专业分数 API
 //根据学校模糊查询
-export const getScoreBySchool = (keywords) => get(`yearscore/scoreLikeSchoolName?schoolName=${keywords}`)
+export const getScoreBySchool = (params) => post(`yearscore/scoreLikeSchoolName`, params, { headers: { 'Content-Type': 'application/json' } })
 //根据专业模糊查询
-export const getScoreLikeName = (keywords) => get(`yearscore/scoreLikeProfessinfo?professName=${keywords}`)
+export const getScoreLikeName = (params) => post(`yearscore/scoreLikeProfessinfo`, params, { headers: { 'Content-Type': 'application/json' } })
 //根据备注模糊查询
-export const getScoreLikeRemark = (keywords) => get(`yearscore/scoreLikeRemarks?remarks=${keywords}`)
+export const getScoreLikeRemark = (params) => post(`yearscore/scoreLikeRemarks`, params, { headers: { 'Content-Type': 'application/json' } })
 //根据学校专业id获取专业分数
 export const getAllScoreBySchool = (sid, proId) => get(`yearscore/get/${sid}/${proId}`)
 //删除分数

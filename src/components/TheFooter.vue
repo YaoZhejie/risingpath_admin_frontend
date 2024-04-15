@@ -1,7 +1,7 @@
 <template>
   <div class="the-footer">
     <p v-for="(item, index) in list" :key="index">
-      {{item}}
+      {{ item }}
     </p>
   </div>
 </template>
@@ -9,10 +9,10 @@
 <script>
 export default {
   name: 'the-footer',
-  data () {
+  data() {
     return {
       list: [
-      `©2024 Designed by yzj `
+        `©2024 Designed by yzj `
       ]
     }
   }

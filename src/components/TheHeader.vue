@@ -48,7 +48,7 @@ export default {
   data () {
     return {
       logo: require("../assets/logo.jpg"),
-      Name: '浙江专升本志愿辅助填报系统',
+      Name: '浙江专升本志愿辅助系统后台',
       loginMsg: [], // 右侧导航栏
       menuList: [], // 用户下拉菜单项
       keywords: '',
