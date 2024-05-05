@@ -38,7 +38,7 @@
             layout="total, prev, pager, next"
             :current-page="currentPage"
             :page-size="pageSize"
-            :total="tableData.length">
+            :total="total">
           </el-pagination>
         </div>
       </div>
@@ -100,7 +100,7 @@
   
   <script>
   import { mixin } from '../mixins'
-  import {getAllLeranLink,insertLearn,updateLearn,deleteLearn} from '../api/index'
+  import {getAllLeranLink,addOrUpdate,deleteLearn} from '../api/index'
 
   export default {
     mixins: [mixin],
@@ -139,14 +139,17 @@
           downloadLink: '',
           code:''
         },
+        deleteBatch: {
+        ids: []
+      },
         tableData: [],
-        tempDate: [],
         centerDialogVisible: false,
         editVisible: false,
         delVisible: false,
         multipleSelection:[],
         title: '',
-        pageSize: 5, // 页数
+        total:1,
+        pageSize: 2, // 页数
         currentPage: 1, // 当前页
         idx: -1
       }
@@ -154,22 +157,7 @@
     computed: {
       // 计算当前表格中的数据
       data () {
-        return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
-      }
-    },
-    watch: {
-      //搜索框里面的内容发生变化时，搜索结果table列表内容跟着内容发生变化
-      title: function () {
-        if (this.title === '') {
-          this.tableData = this.tempDate
-        } else {
-          this.tableData = []
-          for (let item of this.tempDate) {
-            if (item.title.includes(this.title)) {
-              this.tableData.push(item)
-            }
-          }
-        }
+        return this.tableData
       }
     },
     created () {
@@ -179,16 +167,21 @@
       // 获取专业院校信息
       getData () {
         this.tableData = []
-        this.tempDate = []
-        getAllLeranLink().then((res) => {
-          this.tableData = res
-          this.tempDate = res
-          this.currentPage = 1
+        getAllLeranLink({
+          current:this.currentPage,
+          pageSize:this.pageSize,
+          title:this.yourData
+        }).then((res) => {
+          this.tableData = res.data.records
+          this.currentPage = parseInt(res.data.current)
+          this.pageSize = parseInt(res.data.size)
+          this.total = parseInt(res.data.total)
         })
       },
       // 获取当前页
       handleCurrentChange (val) {
         this.currentPage = val
+        this.getData()
       },
       // 添加用户
       addPeople () {
@@ -201,7 +194,7 @@
 
         }
        
-      insertLearn(params).then(response => {
+        addOrUpdate(params).then(response => {
               // 根据 code 判断是否添加成功
               if (response.code === 1) {
                 // 添加成功，显示相应内容
@@ -237,7 +230,7 @@
         downloadLink: this.form.downloadLink,
         code: this.form.code
       }
-      updateLearn(params)
+      addOrUpdate(params)
         .then(res => {
           if (res.code === 1) {
             this.showError = false
@@ -262,11 +255,9 @@
         this.editVisible = false
       },
       // 确定删除
-      deleteRow () {
-        let params = {
-          learnId :this.idx,
-      }
-      deleteLearn(params)
+      deleteRow() {
+      this.deleteBatch.ids.push(this.idx)
+      deleteLearn(this.deleteBatch)
         .then(res => {
           if (res.code === 1) {
             this.showError = false
@@ -275,18 +266,14 @@
               title: '删除成功',
               showClose: true
             })
+            this.deleteBatch.ids = []
             this.getData()
           } else {
-            this.showSuccess = false
-            this.showError = true
-            this.$notify.error({
-              title: '删除失败',
-              showClose: true
-            })
+            this.deleteBatch.ids = []
           }
         })
-        this.delVisible = false
-      }
+      this.delVisible = false
+    },
     }
   }
   </script>

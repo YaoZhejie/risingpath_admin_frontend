@@ -14,13 +14,13 @@
       <el-table-column label="类型" prop="type" width="80" align="center"></el-table-column>
       <el-table-column label="学校名称" prop="schoolName" width="120" align="center"></el-table-column>
       <el-table-column label="专业代码" prop="proCode" width="80" align="center"></el-table-column>
-      <el-table-column label="学校图标" width="140" align="center">
+      <!-- <el-table-column label="学校图标" width="140" align="center">
           <template slot-scope="scope">
             <div id="user">
               <img :src="attachImageUrl(scope.row.img)" alt="头像" style="width: 80px " />
             </div>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       <el-table-column label="专业名" prop="professName" width="120" align="center"></el-table-column>
       <el-table-column label="所在城市" prop="city" width="120" align="center"></el-table-column>
       <el-table-column label="2021年" prop="twoYearBefore" width="120" align="center"></el-table-column>

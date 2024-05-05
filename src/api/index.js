@@ -21,14 +21,13 @@ export const updatePassword = (params) => post(`user/updatePassword`, params, { 
 export const updatePic = (params) => post(`user/updateUserPic`, params, { headers: { 'Content-Type': 'multipart/form-data' } })
 
 // =======================> 学习资料 API
-//返回所有学习资料信息
-export const getAllLeranLink = () => get('learn/allLearn')
+
+export const getAllLeranLink = (params) => post(`learn/allLearn`, params, { headers: { 'Content-Type': 'application/json' } })
 //更新学习资料信息
-export const updateLearn = (params) => post(`learn/update`, params, { headers: { 'Content-Type': 'application/json' } })
+export const addOrUpdate = (params) => post(`learn/addOrUpdate`, params, { headers: { 'Content-Type': 'application/json' } })
 //删除学习资料信息
 export const deleteLearn = (params) => post(`learn/delete`, params, { headers: { 'Content-Type': 'application/json' } })
-//增加一条学习资料链接
-export const insertLearn = (params) => post(`learn/insert`, params, { headers: { 'Content-Type': 'application/json' } })
+
 
 // =======================> 学校 API
 //返回所有学校信息
@@ -95,14 +94,13 @@ export const CountOfMajorsByType = () => get('count/getCountOfMajorsByType')
 // =======================> 校长信箱 API
 
 //获取所有信件
-export const getAllLetter = () => get('letterbox/allLetter')
-//删除专业以及所在的分数线
-export const deleteLetter = (letterId) => post(`letterbox/delete/${letterId}`)
-// //========================> 公告头像获取api
-// export const getIMG = (imageName) => get(`avatorImages/${imageName}`,{ responseType: 'arraybuffer' })
+export const getAllLetter = (params) => post('letter/allLetter', params, { headers: { 'Content-Type': 'application/json' } })
+//删除信箱信息
+export const deleteLetter = (params) => post(`letter/delete`, params, { headers: { 'Content-Type': 'application/json' } })
+
 
 
 //========================> 公告API
-export const getNotice = () => get('notice/getNotice')
+export const getNotice = () => post('notice/getNotice', params, { headers: { 'Content-Type': 'application/json' } })
 //修改公告
-export const updateNotice = (params) => post(`notice/update`, params, { headers: { 'Content-Type': 'application/json' } })
+export const updateNotice = (params) => post(`notice/addOrUpdate`, params, { headers: { 'Content-Type': 'application/json' } })

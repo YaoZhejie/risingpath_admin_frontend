@@ -1,86 +1,73 @@
 <template>
-    <div class="mail">
-      <el-form  label-width="100px">
-        <h2>系统公告管理</h2>
-        <el-form-item label="主题" prop="title">
-          <el-input v-model="Notice.title"></el-input>
-        </el-form-item>
-        <el-form-item label="内容" prop="content">
-          <el-input type="textarea" v-model="Notice.content"  rows="18"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="handleSubmit">修改</el-button>
-        </el-form-item>
-        <p class="announcement-item-date">{{ "发布时间：" + Notice.publishTime}}</p>
-      </el-form>
-    </div>
-  </template>
+  <div class="mail">
+    <el-form label-width="100px">
+      <h2>系统公告管理</h2>
+      <el-form-item label="主题" prop="title">
+        <el-input v-model="Notice.title"></el-input>
+      </el-form-item>
+      <el-form-item label="内容" prop="content">
+        <el-input type="textarea" v-model="Notice.content" rows="18"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="handleSubmit">修改</el-button>
+      </el-form-item>
+      <p class="announcement-item-date">{{ "发布时间：" + Notice.publishTime }}</p>
+    </el-form>
+  </div>
+</template>
 
 <script>
 import { mixin } from '../mixins'
-import {getNotice,updateNotice} from '../api/index'
+import { getNotice, updateNotice } from '../api/index'
 export default {
   name: 'Notice',
-  data () {
+  data() {
     return {
       Notice: {
-        noticeId:'',
+        noticeId: '',
         title: '',
         content: '',
-        publishTime:'',
+        publishTime: '',
       },
-      formattedTime:''
+      formattedTime: null
     }
   },
   mixins: [mixin],
   methods: {
-    getCurrentTime() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      const hour = String(today.getHours()).padStart(2, '0');
-      const minute = String(today.getMinutes()).padStart(2, '0');
-      const second = String(today.getSeconds()).padStart(2, '0');
-
-      this.formattedTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
-    },
-    handleSubmit () {
+    handleSubmit() {
       let _this = this
       let params = {
-        noticeId:this.Notice.noticeId,
+        noticeId: this.Notice.noticeId,
         title: this.Notice.title,
         content: this.Notice.content,
-        publishTime:this.formattedTime
+      }
+      console.log(params.publishTime)
+      //调用封装的发送信息方法
+      updateNotice(params, {
+        headers: { 'Content-Type': 'application/json' }
+      }).then(response => {
+        // 根据 code 判断是否修改成功
+        if (response.code === 1) {
+          // 修改成功，显示相应内容
+          _this.notify('修改成功', 'success');
+          this.getData()
+        } else {
+          // 修改失败，显示相应内容
+          _this.notify('修改失败', 'error')
         }
-        console.log(params.publishTime)
-        //调用封装的发送信息方法
-        updateNotice(params,{
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => {
-              // 根据 code 判断是否修改成功
-              if (response.code === 1) {
-                // 修改成功，显示相应内容
-                _this.notify('修改成功', 'success');
-                this.getData()
-              } else {
-                // 修改失败，显示相应内容
-                _this.notify('修改失败', 'error')
-              }
-            }).catch(error => {
-              console.log(error)
-            })
+      }).catch(error => {
+        console.log(error)
+      })
     },
-    getData () {
-        getNotice().then((res) => {
-          this.Notice = res
-        })
-      },
+    getData() {
+      getNotice().then((res) => {
+        this.Notice = res.data
+      })
+    },
   },
-  created () {
-      this.getData()
-      this.getCurrentTime()
-    },
+  created() {
+    this.getData()
+  },
 }
 </script>
 
@@ -128,5 +115,4 @@ h2 {
   font-size: 25px;
   color: #888;
 }
-
 </style>
